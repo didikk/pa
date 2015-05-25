@@ -3,16 +3,28 @@
 </head>
 
 <body>
-  <h1>Atmospheric Pressure</h1>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper cyan">
+				<a href="/" class="brand-logo center">Atmospheric Pressure Sensor</a>
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		{{> adminChartLevel}}
 
-  {{> hello}}
+		{{> hello}}
+	</div>
+
 </body>
 
 <template name="hello">
-  	<!-- {{#each pressure}}
-  		{{data}}<br>
-  	{{/each}} -->
-  	<div id="data">
-  		
+  	<div>
+  		<h4 id="data"></h4>
   	</div>
 </template>
+
+<template name="adminChartLevel">
+	<div id="adminChartLevel"></div>
+</template>
+
