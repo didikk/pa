@@ -17,10 +17,17 @@ if (Meteor.isClient) {
   });*/
   
   var data;
+  var total = 0;
+  var counter = 0;
+  var average;
   
   dataStream.on('pa', function (pa){
       data = pa;
-      $('#data').replaceWith('<h4 id="data" class="center-align">' + data + ' KPa' + '</h4>');
+      total += data;
+      ++counter;
+      average = total / counter;
+      $('#pressure').replaceWith('<h5 id="pressure" >' + data + ' KPa' + '</h5>');
+      $('#average').replaceWith('<h5 id="average" >' + average.toFixed(2) + ' KPa' + '</h5>');
   });
 
   function builtChart() {
