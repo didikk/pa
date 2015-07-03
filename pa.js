@@ -1,34 +1,67 @@
-//Pressure = new Mongo.Collection('pressure');
+Pressure = new Mongo.Collection('pressure');
 
 dataStream = new Meteor.Stream('pressure');
 
+TabularTables = {};
+
+Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
+
+TabularTables.Pressure = new Tabular.Table({
+  name: "DataList",
+  collection: Pressure,
+  columns: [
+    {data: "pressure", title: "Pressure"},
+    {data: "status", title: "Status"},
+    {data: "time", title: "Time"}
+  ]
+});
+
+
 if (Meteor.isClient) {
-  /*Template.hello.helpers({
-    pressure: function () {
-      return Pressure.find();
-    }
-
-  });
-
-  dataStream.on('pa', function (pa){
-      Pressure.insert({
-        data: pa
-      });
-  });*/
   
   var data;
   var total = 0;
   var counter = 0;
   var average;
+  var status;
   
   dataStream.on('pa', function (pa){
       data = pa;
       total += data;
       ++counter;
       average = total / counter;
-      $('#pressure').replaceWith('<h5 id="pressure" >' + data + ' KPa' + '</h5>');
-      $('#average').replaceWith('<h5 id="average" >' + average.toFixed(2) + ' KPa' + '</h5>');
+      console.log(counter);
+      
+      if (counter == 300) {
+        var d = new Date();
+
+        Pressure.insert({
+          pressure: average.toFixed(2),
+          status: status,
+          time: d.toLocaleString()
+        });
+
+        counter = 0;
+        total = 0;
+        average = 0;
+      }else{
+        if(data < 400) {
+          status = 'Standard';
+        }else if(data >= 400 && data < 800 ){
+          status = 'Good';
+        }else{
+          status = 'Very Good';
+        }
+
+        $('#pressure').replaceWith('<p id="pressure" >' + data + ' KPa' + '</p>');
+        $('#average').replaceWith('<p id="average" >' + average.toFixed(2) + ' KPa' + '</p>');
+        $('#status').replaceWith('<p id="status" >' + status + '</p`>');
+      }
+
+      
   });
+
+
 
   function builtChart() {
 
@@ -139,7 +172,6 @@ if (Meteor.isServer) {
 
     if( !isNaN(pa)){
       dataStream.emit('pa', pa);
-      //console.log('message', isNaN(pa));
     }
   });
 };
