@@ -92,7 +92,7 @@ if (Meteor.isClient) {
                     }
                 },
                 title: {
-                    text: 'Live data'
+                    text: 'Atmospheric pressure'
                 },
                 xAxis: {
                     type: 'datetime',

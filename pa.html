@@ -1,67 +1,145 @@
 <head>
-  <title>pa</title>
+  <title>Atmospheric Pressure Monitoring</title>
 </head>
 
 <body>
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper teal">
-				<a href="/" class="brand-logo center">Atmospheric Pressure Monitoring</a>
-			</div>
-		</nav>
-	</div>
-	<div class="container">
-		{{> adminChartLevel}}
-		
-	</div>
+	<div id="navbar" class="navbar-fixed scrollspy">
+    <nav  class="teal">
+      <div class="nav-wrapper container">
+        <a href="#navbar" class="brand-logo">AP Monitoring</a>
+
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        <ul class="right hide-on-med-and-down">
+
+          <li><a class="head-link" href="#home">Home</a></li>
+          <li><a class="head-link" href="#stats">Information</a></li>
+          <li><a class="head-link" href="#histories">History</a></li>
+
+        </ul>
+        <ul class="right side-nav" id="mobile-demo">
+          <li><a class="head-link" href="#home">Home</a></li>
+          <li><a class="head-link" href="#stats">Information</a></li>
+          
+          <li><a class="head-link" href="#histories">History</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+
+
+  <div class="container section scrollspy" id="home">
+    <div class="section">
+      <br>
+      <br>
+      <h4 class="center">Realtime Data</h4>
+      {{> adminChartLevel}}
+
+    </div>
+  </div>
+
+
+  <div class="container section scrollspy" id="stats">
+    <div class="section">
+      <br>
+      <br>  
+      <h4 class="center">Information</h4>
+
+      {{> status}}
+
+    </div>
+  </div>
+
+
+
+  <div class="container section scrollspy" id="histories">
+    <div class="section">
+      <br>
+      <br>
+      <h4 class="center">History</h4> 
+
+      {{> history}}
+    </div>
+  </div>
+
+  
+
+  <footer class="page-footer teal darken-4">
+
+    <div class="footer-copyright">
+      <div class="container">
+       <p>Copyright © Didik Ismawanto</p>
+     </div>
+   </div>
+ </footer>
+
+ <script src="js/init.js"></script>
+ <script>
+  $(document).ready(function(){
+    $('.materialboxed').materialbox();
+    $('.button-collapse').sideNav();
+
+  });
+</script>
+<script>
+  $('.head-link').click(function(e) {
+    e.preventDefault();
+
+    var goto = $(this).attr('href');
+
+    $('html, body').animate({
+      scrollTop: $(goto).offset().top
+    }, 800);
+  });
+
+</script>
 
 </body>
 
 
 <template name="adminChartLevel">
-	<div class="row">
-		<div class="card z-depth-2">
-            <div class="card-content">
-              <p id="adminChartLevel"></p>
-            </div>
-         </div>
-	</div>
-	<div class="row">
-        <div class="col s4">
-          <div class="card z-depth-2">
-            <div class="card-content">
-              <span class="card-title black-text">Pressure</span>
-              <p id="pressure"></p>
-            </div>
-          </div>
-        </div>
 
-        <div class="col s4">
-          <div class="card z-depth-2">
-            <div class="card-content">
-              <span class="card-title black-text">Average</span>
-              <p id="average"></p>
-            </div>
-          </div>
-        </div>
+	<p id="adminChartLevel" class="light"></p>
 
-        <div class="col s4">
-          <div class="card z-depth-2">
-            <div class="card-content">
-              <span class="card-title black-text">Status</span>
-              <p id="status"></p>
-            </div>
-          </div>
+</template>
+
+<template name="status">
+
+  <div class="row">
+    <div class="col s12 m4">
+      <div class="card z-depth-2">
+        <div class="card-content">
+          <span class="card-title black-text">Average</span>
+          <p id="average"></p>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="card z-depth-2">
-          <div class="card-content">
-            <span class="card-title black-text">History</span>
-            <p>{{> tabular table=TabularTables.Pressure class="table table-striped table-bordered table-condensed"}}</p>
-          </div>
+    <div class="col s12 m4">
+      <div class="card z-depth-2">
+        <div class="card-content">
+          <span class="card-title black-text">Status</span>
+          <p id="status"></p>
         </div>
       </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card z-depth-2">
+        <div class="card-content">
+          <span class="card-title black-text">Explanation</span>
+          <p>0-400 = Standard</p>
+          <p>400-800 = Good</p>
+          <p>> 800 = Very Good</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="history">
+  <div class="row">
+    {{> tabular table=TabularTables.Pressure class="table table-striped table-bordered table-condensed"}}
+  </div>
 </template>
 
