@@ -11,7 +11,6 @@ TabularTables.Pressure = new Tabular.Table({
   collection: Pressure,
   columns: [
     {data: "pressure", title: "Pressure"},
-    {data: "status", title: "Status"},
     {data: "time", title: "Time"}
   ]
 });
@@ -37,7 +36,6 @@ if (Meteor.isClient) {
 
         Pressure.insert({
           pressure: average.toFixed(2),
-          status: status,
           time: d.toLocaleString()
         });
 
@@ -45,17 +43,9 @@ if (Meteor.isClient) {
         total = 0;
         average = 0;
       }else{
-        if(data < 400) {
-          status = 'Standard';
-        }else if(data >= 400 && data < 800 ){
-          status = 'Good';
-        }else{
-          status = 'Very Good';
-        }
 
         $('#pressure').replaceWith('<p id="pressure" >' + data + ' KPa' + '</p>');
         $('#average').replaceWith('<p id="average" >' + average.toFixed(2) + ' KPa' + '</p>');
-        $('#status').replaceWith('<p id="status" >' + status + '</p`>');
       }
 
       
